@@ -1,0 +1,44 @@
+---
+- include_vars: ../../vars_main.yml
+
+- name: Instalar Apache
+  apt:
+    name: "{{ item }}"
+    update_cache: true
+    cache_valid_time: 3600
+  with_items: "{{ apache_packages }}"
+
+- name: Iniciar Apache
+  service:
+    name: apache2
+    state: started
+    enabled: true
+
+- name: Instalar PHP + dependencias
+  apt:
+    name: "{{ item }}"
+  with_items: "{{ php_packages }}"
+
+- name: Descarga y descomprime limesurvey
+  unarchive:
+    src: "{{ lime_url }}"
+    dest: /var/www/html
+    remote_src: true
+    owner: "{{ usuario_apache }}"
+    group: "{{ grupo_apache }}"
+
+- name: Configurando sitio
+  template:
+    src: "files/limesurvey.conf.j2"
+    dest: "/etc/apache2/sites-available/{{ sitio_conf }}"
+
+- name: Limpiando y habilitando modulos PHP
+  shell: |
+    /usr/sbin/a2dissite 000-default.conf
+    /usr/bin/rm /var/www/html/index.html
+    a2enmod rewrite
+  notify: recargar_apache
+
+- name: Activar sitio
+  shell: /usr/sbin/a2ensite {{ sitio_conf }}
+  notify: reiniciar_apache

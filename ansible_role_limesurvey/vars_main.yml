@@ -1,0 +1,15 @@
+---
+#### mariadb #######
+mysql_root_password: mysql_root_pass
+mysql_user: lime_user
+mysql_pass: lime_pass
+mysql_db: lime_db
+
+#### limesurvey ######
+http_port: "80"
+sitio: encuestas.cultura.lab
+sitio_conf: limesurvey.conf
+admins_mail: admins@cultura.lab
+usuario_apache: www-data
+grupo_apache: www-data
+lime_url: "https://download.limesurvey.org/latest-stable-release/limesurvey5.4.15+221212.zip"

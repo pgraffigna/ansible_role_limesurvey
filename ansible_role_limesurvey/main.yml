@@ -1,0 +1,7 @@
+---
+- hosts: limesurvey
+  become: yes
+
+  roles:
+    - { role: mariadb, tags: [ 'db' ] }
+    - limesurvey

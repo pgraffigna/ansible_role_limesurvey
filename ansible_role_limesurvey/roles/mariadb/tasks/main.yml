@@ -1,0 +1,51 @@
+---
+- include_vars: ../../vars_main.yml
+
+- name: Instalacion mariaDB
+  apt:
+    name: "{{ item }}"
+    update_cache: true
+    cache_valid_time: 3600
+  with_items: "{{ mariadb_packages }}"
+
+- name: Creando mariaDB root password
+  mysql_user:
+    name: root
+    password: "{{ mysql_root_password }}"
+    login_unix_socket: /var/run/mysqld/mysqld.sock
+
+- name: Eliminar acceso anonimo
+  mysql_user:
+    name: ''
+    host: localhost
+    state: absent
+    login_user: root
+    login_password: "{{ mysql_root_password }}"
+
+- name: Elimina la base de datos test
+  mysql_db:
+    name: test
+    state: absent
+    login_user: root
+    login_password: "{{ mysql_root_password }}"
+
+- name: Crea la base de datos para osticket
+  mysql_db:
+    name: "{{ mysql_db }}"
+    state: present
+    login_user: root
+    login_password: "{{ mysql_root_password }}"
+
+- name: Crea el usuario "{{ mysql_user }}"
+  mysql_user:
+    name: "{{ mysql_user }}"
+    password: "{{ mysql_pass }}"
+    host: localhost
+    state: present
+    update_password: on_create
+    priv: "{{ mysql_db }}.*:ALL"
+    login_user: root
+    login_password: "{{ mysql_root_password }}"
+    login_unix_socket: /var/run/mysqld/mysqld.sock
+  notify: iniciar_mariadb
+

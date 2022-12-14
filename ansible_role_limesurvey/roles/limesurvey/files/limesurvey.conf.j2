@@ -1,0 +1,14 @@
+<VirtualHost *:{{ http_port }}>
+        ServerAdmin {{ admins_mail }}
+        DocumentRoot /var/www/html/limesurvey
+        ServerName {{ sitio }}
+
+        <Directory /var/www/html/limesurvey>
+                Options FollowSymlinks
+                AllowOverride All
+                Require all granted
+        </Directory>
+
+        ErrorLog ${APACHE_LOG_DIR}/{{ sitio }}_error.log
+        CustomLog ${APACHE_LOG_DIR}/{{ sitio }}_access.log combined
+</VirtualHost>
