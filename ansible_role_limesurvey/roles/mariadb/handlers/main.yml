@@ -1,6 +1,0 @@
----
-- name: iniciar_mariadb
-  service:
-    name: mariadb
-    enabled: true
-    state: started

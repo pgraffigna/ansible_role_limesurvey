@@ -12,4 +12,4 @@ sitio_conf: limesurvey.conf
 admins_mail: admins@cultura.lab
 usuario_apache: www-data
 grupo_apache: www-data
-lime_url: "https://download.limesurvey.org/latest-stable-release/limesurvey5.4.15+221212.zip"
+lime_url: "https://download.limesurvey.org/latest-master/limesurvey6.1.3+230612.zip"

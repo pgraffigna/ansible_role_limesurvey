@@ -1,11 +1,18 @@
 ---
+- name: iniciar_mariadb
+  service:
+    name: mariadb
+    enabled: true
+    state: started
+
 - name: recargar_apache
   service:
     name: apache2
     state: reloaded
+  listen: servicios_apache
 
 - name: reiniciar_apache
   service:
     name: apache2
     state: restarted
-
+  listen: servicios_apache
