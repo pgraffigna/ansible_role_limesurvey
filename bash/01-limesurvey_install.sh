@@ -9,7 +9,7 @@ FIN="\033[0m\e[0m"
 #Ctrl-C
 trap ctrl_c INT
 function ctrl_c(){
-        echo -e "\n${ROJO}[LIMESURVEY] Programa Terminado por el usuario ${FIN}"
+        echo -e "\n${ROJO}[LIMESURVEY] Programa Terminado por el usuario${FIN}"
         exit 0
 }
 
@@ -17,7 +17,6 @@ function ctrl_c(){
 LIME_URL="https://download.limesurvey.org/latest-stable-release/limesurvey5.4.15+221212.zip"
 LIME_TMP="/tmp/limesurvey-5.4.15.zip"
 LIME_CONFIG="limesurvey.conf"
-#SERVER_NAME="encuestas.cultura.lab"
 
 echo -e "${AMARILLO}[LIMESURVEY] Instalando apache + php ${FIN}\n"
 sudo apt update && sudo apt -y install apache2 php libapache2-mod-php php-{mysql,mbstring,xml,zip,imap,gd,ldap} unzip
@@ -29,14 +28,14 @@ echo -e "${AMARILLO}[LIMESURVEY] Descomprimiendo limesurvey ${FIN}\n"
 sudo unzip "$LIME_TMP" -d /var/www/html
 
 echo -e "${AMARILLO}[LIMESURVEY] Cambiando los permisos ${FIN}\n"
-sudo chown www-data:www-data -R /var/www/html/limesurvey/ && sudo chmod 755 -R /var/www/html/limesurvey/
+sudo chown -R www-data:www-data /var/www/html/limesurvey/ && sudo chmod 755 -R /var/www/html/limesurvey/
 
 echo -e "${AMARILLO}[LIMESURVEY] Configurando sitio ${FIN}\n"
 sudo tee /etc/apache2/sites-available/${LIME_CONFIG} >/dev/null <<EOF
 <VirtualHost *:80>
-        ServerAdmin administradores@cultura.lab
+        ServerAdmin admin@home.lab
         DocumentRoot /var/www/html/limesurvey
-        ServerName encuestas.cultura.lab
+        ServerName encuestas.home.lab
 
         <Directory /var/www/html/limesurvey>
                 Options FollowSymlinks
@@ -44,8 +43,8 @@ sudo tee /etc/apache2/sites-available/${LIME_CONFIG} >/dev/null <<EOF
                 Require all granted
         </Directory>
 
-        ErrorLog ${APACHE_LOG_DIR}/encuestas.cultura.lab_error.log
-        CustomLog ${APACHE_LOG_DIR}/encuestas.cultura.lab_access.log combined
+        ErrorLog ${APACHE_LOG_DIR}/encuestas.home.lab_error.log
+        CustomLog ${APACHE_LOG_DIR}/encuestas.home.lab_access.log combined
 </VirtualHost>
 EOF
 

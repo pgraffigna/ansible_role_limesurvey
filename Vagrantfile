@@ -1,6 +1,6 @@
 ENV['VAGRANT_DEFAULT_PROVIDER'] = 'libvirt'
 IMAGEN = "generic/ubuntu2004"
-HOSTNAME = "limesurvey"
+HOSTNAME = "limesurvey.home.lab"
 
 Vagrant.configure("2") do |config|
   config.ssh.insert_key = false
@@ -13,6 +13,7 @@ Vagrant.configure("2") do |config|
     s.vm.provider :libvirt do |v|
       v.memory = 2048
       v.cpus = 2
+      v.graphics_type = "none"
     end
   end
 end

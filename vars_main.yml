@@ -6,10 +6,10 @@ mysql_pass: lime_pass
 mysql_db: lime_db
 
 #### limesurvey ######
-http_port: "80"
-sitio: encuestas.cultura.lab
+https_port: "443"
+sitio: encuestas.home.lab
 sitio_conf: limesurvey.conf
-admins_mail: admins@cultura.lab
+admins_mail: admins@home.lab
 usuario_apache: www-data
 grupo_apache: www-data
-lime_url: "https://download.limesurvey.org/latest-master/limesurvey6.1.3+230612.zip"
+lime_url: "https://download.limesurvey.org/latest-master/limesurvey6.4.7+240219.zip"

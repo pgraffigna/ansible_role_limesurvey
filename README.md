@@ -2,7 +2,7 @@
 
 Playbook role para instalar un servidor Limesurvey para realizar encuestas.
 
-Testeado con Vagrant + qemu + ubuntu_20.04
+Testeado con Vagrant + qemu + ubuntu_20.04 + ansible 2.10.8
 
 ---
 

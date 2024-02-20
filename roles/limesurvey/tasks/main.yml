@@ -1,0 +1,75 @@
+---
+- name: Incluye el archivo con las variables
+  ansible.builtin.include_vars:
+    file: vars_main.yml
+
+- name: Instalar Apache
+  ansible.builtin.apt:
+    name: "{{ item }}"
+    update_cache: true
+    cache_valid_time: 3600
+  with_items: "{{ apache_packages }}"
+
+- name: Instalar PHP + dependencias
+  ansible.builtin.apt:
+    name: "{{ item }}"
+  with_items: "{{ php_packages }}"
+
+- name: Descarga y descomprime limesurvey
+  ansible.builtin.unarchive:
+    src: "{{ lime_url }}"
+    dest: /var/www/html
+    remote_src: true
+    owner: "{{ usuario_apache }}"
+    group: "{{ grupo_apache }}"
+
+- name: Copiando config para el sitio
+  ansible.builtin.template:
+    src: "files/limesurvey.conf.j2"
+    dest: "/etc/apache2/sites-available/{{ sitio_conf }}"
+
+- name: Eliminando index.html
+  file:
+    path: /var/www/html/index.html
+    state: absent
+
+- name: Desactivando sitio por default 
+  command: a2dissite 000-default
+
+- name: Activa Apache mods
+  apache2_module:
+    state: present
+    name: "{{ item }}"
+  with_items: "{{ apache_mods }}"
+
+- name: Creando carpeta para SSL
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+   - /etc/ssl/certs
+   - /etc/ssl/private
+
+- name: Genera Private key
+  openssl_privatekey:
+    path: /etc/ssl/private/{{ sitio }}.key
+
+- name: Genera CSR
+  openssl_csr: 
+    path: /etc/ssl/certs/{{ sitio }}.csr
+    privatekey_path: /etc/ssl/private/{{ sitio }}.key 
+    common_name: "{{ sitio }}"
+    country_name: AR
+    email_address: admin@home.lab
+    organization_name: Home
+
+- name: Genera Certificado auto-firmado
+  openssl_certificate:
+    path: /etc/ssl/certs/{{ sitio }}.crt
+    privatekey_path: /etc/ssl/private/{{ sitio }}.key
+    csr_path: /etc/ssl/certs/{{ sitio }}.csr
+    provider: selfsigned
+
+- name: Activar sitio
+  ansible.builtin.shell: /usr/sbin/a2ensite {{ sitio_conf }}
+  notify: servicios_apache

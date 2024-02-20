@@ -39,4 +39,4 @@ sudo mysql -e "CREATE DATABASE IF NOT EXISTS $MYSQL_DB"
 sudo mysql -e "CREATE USER IF NOT EXISTS '$MYSQL_USER'@'localhost' IDENTIFIED BY '$MYSQL_PASS'"
 sudo mysql -e "GRANT ALL PRIVILEGES ON $MYSQL_DB.* to '$MYSQL_USER'@'localhost'"
 
-echo -e "\n${VERDE}[MARIA_DB] La db $MYSQL_DB fue creada con exito se le dio permisos de acceso al usuario $MYSQL_USER ${FIN}"
+echo -e "\n${VERDE}[MARIA_DB] La db $MYSQL_DB fue creada con exito se le dio permisos de escritura al usuario $MYSQL_USER ${FIN}"

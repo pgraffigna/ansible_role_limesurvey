@@ -1,3 +1,0 @@
----
-apache_packages: [ 'apache2', 'unzip' ]
-php_packages: [ 'php', 'libapache2-mod-php', 'php-mysql', 'php-mbstring', 'php-xml', 'php-zip', 'php-imap', 'php-gd', 'php-ldap' ]

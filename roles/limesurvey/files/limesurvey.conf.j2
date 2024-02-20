@@ -11,4 +11,8 @@
 
         ErrorLog ${APACHE_LOG_DIR}/{{ sitio }}_error.log
         CustomLog ${APACHE_LOG_DIR}/{{ sitio }}_access.log combined
+
+        SSLEngine on
+        SSLCertificateFile /etc/ssl/certs/{{ sitio }}.crt
+        SSLCertificateKeyFile /etc/ssl/private/{{ sitio }}.key
 </VirtualHost>
