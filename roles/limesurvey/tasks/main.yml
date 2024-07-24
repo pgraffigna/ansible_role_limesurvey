@@ -33,7 +33,7 @@
     path: /var/www/html/index.html
     state: absent
 
-- name: Desactivando sitio por default 
+- name: Desactivando sitio por default
   command: a2dissite 000-default
 
 - name: Activa Apache mods
@@ -47,17 +47,17 @@
     path: "{{ item }}"
     state: directory
   with_items:
-   - /etc/ssl/certs
-   - /etc/ssl/private
+    - /etc/ssl/certs
+    - /etc/ssl/private
 
 - name: Genera Private key
   openssl_privatekey:
     path: /etc/ssl/private/{{ sitio }}.key
 
 - name: Genera CSR
-  openssl_csr: 
+  openssl_csr:
     path: /etc/ssl/certs/{{ sitio }}.csr
-    privatekey_path: /etc/ssl/private/{{ sitio }}.key 
+    privatekey_path: /etc/ssl/private/{{ sitio }}.key
     common_name: "{{ sitio }}"
     country_name: AR
     email_address: admin@home.lab
