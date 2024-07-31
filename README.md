@@ -28,6 +28,7 @@ ansible-playbook main.yml
 
 ### Extras
 * Archivo de configuración (Vagrantfile) para desplegar una VM descartable con ubuntu-22.04 con libvirt como hipervisor.
+* notas sobre migración entre versiones
 
 ### Uso Vagrant (opcional)
 ```
